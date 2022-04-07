@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div id="music" class="music">
+        <div class="trackBox">
+            <i class="items"></i>
+        </div>
+        <div class="screen">
+            <div id="info"></div>
+            <img src="../img/record.svg" alt="" class="playicon">
+            <div class='progress'>
+                <div class='time'>
+                </div>
+                <div class='bar'></div>
+            </div>
+        </div>
+        <div class="buttons">
+            <img src="../img/pre.svg" alt="上一首" id="preSong" title="上一首">
+            <img src="../img/stop.svg" alt="播放/暂停" id="playSong" title="播放/暂停">
+            <img src="../img/next.svg" alt="下一首" id="nextSong" title="下一首">
+        </div>
+    </div>
+
+    <script src="./music.js"></script>
+</body>
+
+</html>
