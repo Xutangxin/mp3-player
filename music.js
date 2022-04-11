@@ -37,7 +37,6 @@ const musicBox = {
     displayInfo();
   },
   getcurrentsong: function () {
-    // console.log('curr', this.songs[this.index]);
     const info = this.songs[this.index];
     return info.split('/')[2].split('.')[0];
   }
@@ -56,7 +55,7 @@ const utils = {
     if (id.toString().indexOf('#') != -1) {
       id = id.replace('#', '');
     }
-    return document.getElementById(id);
+    return getEl(`#${id}`);
   },
   randomNum: function (num) {
     return Math.floor(Math.random() * (num + 1));
@@ -73,15 +72,15 @@ const playList = [
 playList.forEach((item) => {
   musicBox.add(item);
 });
-const track = document.querySelector('.trackBox');
+const track = getEl('.trackBox');
 
 function playSongs() {
   let flag = false;
-  const playbtn = document.getElementById('playSong');
-  const playicon = document.querySelector('.playicon');
-  const info = document.querySelector('#info');
-  const timeText = document.querySelector('.progress .time');
-  const progressBar = document.querySelector('.progress .bar');
+  const playbtn = getEl('#playSong');
+  const playicon = getEl('.playicon');
+  const info = getEl('#info');
+  const timeText = getEl('.progress .time');
+  const progressBar = getEl('.progress .bar');
   playbtn.onclick = function () {
     if (this.getAttribute('src') == '../img/stop.svg') {
       this.setAttribute('src', '../img/play.svg');
@@ -112,13 +111,14 @@ function playSongs() {
 
 // 上一首下一首切歌功能
 function changeSongs() {
-  const preSong = document.getElementById('preSong');
-  const nextSong = document.getElementById('nextSong');
-  const playSong = document.querySelector('#playSong');
-  const playIcon = document.querySelector('.playicon');
-  const timeText = document.querySelector('.progress .time');
-  const progressBar = document.querySelector('.progress .bar');
+  const preSong = getEl('#preSong');
+  const nextSong = getEl('#nextSong');
+  const playSong = getEl('#playSong');
+  const playIcon = getEl('.playicon');
+  const timeText = getEl('.progress .time');
+  const progressBar = getEl('.progress .bar');
   preSong.addEventListener('click', function () {
+    showTrackBox();
     playSong.src = '../img/play.svg';
     musicBox.prev();
     playIcon.className += ' r';
@@ -126,6 +126,7 @@ function changeSongs() {
     progressBar.style.display = 'block';
   });
   nextSong.addEventListener('click', function () {
+    showTrackBox();
     playSong.src = '../img/play.svg';
     musicBox.next();
     playIcon.className += ' r';
@@ -135,7 +136,7 @@ function changeSongs() {
 }
 // 显示歌曲信息
 function displayInfo() {
-  const info = document.querySelector('#info');
+  const info = getEl('#info');
   const infotext = musicBox.getcurrentsong();
   info.innerHTML = '正在播放：' + infotext;
 }
@@ -143,8 +144,8 @@ function displayInfo() {
 // audio标签元素自带的ontimeupdate 事件，每次时间更新的时候，就会自动进入里面的逻辑;
 // 可以在里面获取总时长和当前时长，然后就可以计算出百分比，通过给div动态设置宽度来实现进度条的效果。
 musicBox.musicDom.ontimeupdate = function () {
-  const timeText = document.querySelector('.progress .time');
-  const progressBar = document.querySelector('.progress .bar');
+  const timeText = getEl('.progress .time');
+  const progressBar = getEl('.progress .bar');
   const currentTime = Math.floor(this.currentTime); //获取当前时间
   const total = this.duration; //获取总时长
   const percent = Math.floor((currentTime / total) * 100) + '%';
@@ -157,7 +158,7 @@ musicBox.musicDom.ontimeupdate = function () {
 
 // 设置音轨盒子
 function trackBox() {
-  const trackBox = document.querySelector('.trackBox');
+  const trackBox = getEl('.trackBox');
   const singleWidth = 10;
   const maxWidth = trackBox.clientWidth;
   const nums = maxWidth / singleWidth;
@@ -174,7 +175,6 @@ function trackBox() {
     clearInterval(timer);
   }
   timer = setInterval(function () {
-    console.log('timer');
     for (let i = 0; i < nums; i++) {
       document.getElementsByClassName('items')[i].style.height =
         utils.randomNum(150) + 'px';
@@ -182,7 +182,16 @@ function trackBox() {
   }, 300);
 }
 
-const musicPlayer = document.querySelector('.music');
+function getEl(des) {
+  return document.querySelector(des);
+}
+
+function showTrackBox() {
+  const trackBox = getEl('.trackBox');
+  trackBox.style.display = 'block';
+}
+
+const musicPlayer = getEl('.music');
 utils.moveToCenter(musicPlayer);
 playSongs();
 changeSongs();
