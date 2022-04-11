@@ -73,6 +73,7 @@ playList.forEach((item) => {
   musicBox.add(item);
 });
 const track = getElement('.trackBox');
+var timer;
 
 function playSongs() {
   let flag = false;
@@ -94,17 +95,17 @@ function playSongs() {
       playicon.className += ' r';
       displayInfo();
       changeSongs();
-      timeText.style.display = 'block';
-      progressBar.style.display = 'block';
-      track.style.display = 'block';
-      trackBox();
+      [timeText, progressBar, track].forEach((el) => {
+        showElement(el);
+      });
+      beatTrack();
     } else {
       musicBox.stop();
       playicon.className = 'playicon';
       info.innerHTML = '';
-      timeText.style.display = 'none';
-      progressBar.style.display = 'none';
-      track.style.display = 'none';
+      [timeText, progressBar, track].forEach((el) => {
+        hideElement(el);
+      });
     }
   };
 }
@@ -117,21 +118,24 @@ function changeSongs() {
   const playIcon = getElement('.playicon');
   const timeText = getElement('.progress .time');
   const progressBar = getElement('.progress .bar');
+  const trackBox = getElement('.trackBox');
   preSong.addEventListener('click', function () {
-    showTrackBox();
+    showElement(trackBox);
+    beatTrack();
     playSong.src = '../img/play.svg';
     musicBox.prev();
     playIcon.className += ' r';
-    timeText.style.display = 'block';
-    progressBar.style.display = 'block';
+    showElement(timeText);
+    showElement(progressBar);
   });
   nextSong.addEventListener('click', function () {
-    showTrackBox();
+    showElement(trackBox);
+    beatTrack();
     playSong.src = '../img/play.svg';
     musicBox.next();
     playIcon.className += ' r';
-    timeText.style.display = 'block';
-    progressBar.style.display = 'block';
+    showElement(timeText);
+    showElement(progressBar);
   });
 }
 // 显示歌曲信息
@@ -157,14 +161,13 @@ musicBox.musicDom.ontimeupdate = function () {
 };
 
 // 设置音轨盒子
-function trackBox() {
+function beatTrack() {
   const trackBox = getElement('.trackBox');
   const singleWidth = 10;
   const maxWidth = trackBox.clientWidth;
   const nums = maxWidth / singleWidth;
   let tracks = '';
   let left;
-  var timer;
   for (let i = 0; i < nums; i++) {
     left = i * 10 + 'px';
     tracks += '<i class="items" style="left:' + left + '"></i> ';
@@ -186,9 +189,12 @@ function getElement(des) {
   return document.querySelector(des);
 }
 
-function showTrackBox() {
-  const trackBox = getElement('.trackBox');
-  trackBox.style.display = 'block';
+function showElement(el) {
+  el.style.display = 'block';
+}
+
+function hideElement(el) {
+  el.style.display = 'none';
 }
 
 const musicPlayer = getElement('.music');
