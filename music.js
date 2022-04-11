@@ -55,7 +55,7 @@ const utils = {
     if (id.toString().indexOf('#') != -1) {
       id = id.replace('#', '');
     }
-    return getEl(`#${id}`);
+    return getElement(`#${id}`);
   },
   randomNum: function (num) {
     return Math.floor(Math.random() * (num + 1));
@@ -72,15 +72,15 @@ const playList = [
 playList.forEach((item) => {
   musicBox.add(item);
 });
-const track = getEl('.trackBox');
+const track = getElement('.trackBox');
 
 function playSongs() {
   let flag = false;
-  const playbtn = getEl('#playSong');
-  const playicon = getEl('.playicon');
-  const info = getEl('#info');
-  const timeText = getEl('.progress .time');
-  const progressBar = getEl('.progress .bar');
+  const playbtn = getElement('#playSong');
+  const playicon = getElement('.playicon');
+  const info = getElement('#info');
+  const timeText = getElement('.progress .time');
+  const progressBar = getElement('.progress .bar');
   playbtn.onclick = function () {
     if (this.getAttribute('src') == '../img/stop.svg') {
       this.setAttribute('src', '../img/play.svg');
@@ -111,12 +111,12 @@ function playSongs() {
 
 // 上一首下一首切歌功能
 function changeSongs() {
-  const preSong = getEl('#preSong');
-  const nextSong = getEl('#nextSong');
-  const playSong = getEl('#playSong');
-  const playIcon = getEl('.playicon');
-  const timeText = getEl('.progress .time');
-  const progressBar = getEl('.progress .bar');
+  const preSong = getElement('#preSong');
+  const nextSong = getElement('#nextSong');
+  const playSong = getElement('#playSong');
+  const playIcon = getElement('.playicon');
+  const timeText = getElement('.progress .time');
+  const progressBar = getElement('.progress .bar');
   preSong.addEventListener('click', function () {
     showTrackBox();
     playSong.src = '../img/play.svg';
@@ -136,7 +136,7 @@ function changeSongs() {
 }
 // 显示歌曲信息
 function displayInfo() {
-  const info = getEl('#info');
+  const info = getElement('#info');
   const infotext = musicBox.getcurrentsong();
   info.innerHTML = '正在播放：' + infotext;
 }
@@ -144,8 +144,8 @@ function displayInfo() {
 // audio标签元素自带的ontimeupdate 事件，每次时间更新的时候，就会自动进入里面的逻辑;
 // 可以在里面获取总时长和当前时长，然后就可以计算出百分比，通过给div动态设置宽度来实现进度条的效果。
 musicBox.musicDom.ontimeupdate = function () {
-  const timeText = getEl('.progress .time');
-  const progressBar = getEl('.progress .bar');
+  const timeText = getElement('.progress .time');
+  const progressBar = getElement('.progress .bar');
   const currentTime = Math.floor(this.currentTime); //获取当前时间
   const total = this.duration; //获取总时长
   const percent = Math.floor((currentTime / total) * 100) + '%';
@@ -158,7 +158,7 @@ musicBox.musicDom.ontimeupdate = function () {
 
 // 设置音轨盒子
 function trackBox() {
-  const trackBox = getEl('.trackBox');
+  const trackBox = getElement('.trackBox');
   const singleWidth = 10;
   const maxWidth = trackBox.clientWidth;
   const nums = maxWidth / singleWidth;
@@ -182,16 +182,16 @@ function trackBox() {
   }, 300);
 }
 
-function getEl(des) {
+function getElement(des) {
   return document.querySelector(des);
 }
 
 function showTrackBox() {
-  const trackBox = getEl('.trackBox');
+  const trackBox = getElement('.trackBox');
   trackBox.style.display = 'block';
 }
 
-const musicPlayer = getEl('.music');
+const musicPlayer = getElement('.music');
 utils.moveToCenter(musicPlayer);
 playSongs();
 changeSongs();
